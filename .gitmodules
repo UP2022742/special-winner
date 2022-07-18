@@ -4,3 +4,7 @@
 [submodule "mcrrobinson.github.io"]
 	path = mcrrobinson.github.io
 	url = https://github.com/UP2022742/mcrrobinson.github.io/
+	branch = go
+[submodule "aspiring-diamond"]
+	path = aspiring-diamond
+	url = git@github.com:UP2022742/aspiring-diamond.git
