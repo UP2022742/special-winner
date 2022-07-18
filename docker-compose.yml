@@ -9,8 +9,8 @@ services:
         environment:
             - FRONTEND_PORT=3001
             - API_PORT=3000
-        expose:
-          - 3000
+        ports:
+            - "3000:3000"
 
     steam_compare_web:
         build:
@@ -19,26 +19,26 @@ services:
         command: ["python","-m","uvicorn","main:app","--host","0.0.0.0",'--port','3001']
         environment:
             - API_PORT=3000
-        expose:
-          - 3001
+        ports:
+            - "3001:3001"
             
     static_page_web:
-      image: static_page_web
-      build: mcrrobinson.github.io/WebServer
-      container_name: static_page_web
-      restart: always
-      expose:
-         - 443
+        image: static_page_web
+        build: mcrrobinson.github.io/WebServer
+        container_name: static_page_web
+        restart: always
+        ports:
+            - "443:443"
 
     ryan_air_api:
-      image: ryan_air_api
-      build: aspiring-diamond
-      command: ["python","-m","uvicorn","main:app","--host","0.0.0.0",'--port','8000']
-      container_name: ryan_air_api
-      restart: always
-      expose:
-         - 8000
-         
+        image: ryan_air_api
+        build: aspiring-diamond
+        command: ["python","-m","uvicorn","main:app","--host","0.0.0.0",'--port','8000']
+        container_name: ryan_air_api
+        restart: always
+        ports:
+            - "8000:8000"
+        
     # haproxy:
     #   image: haproxy:2.5.7
     #   volumes:
