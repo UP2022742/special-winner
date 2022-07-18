@@ -1,0 +1,6 @@
+[submodule "solid-octo-broccoli"]
+	path = solid-octo-broccoli
+	url = https://github.com/UP2022742/solid-octo-broccoli
+[submodule "mcrrobinson.github.io"]
+	path = mcrrobinson.github.io
+	url = https://github.com/UP2022742/mcrrobinson.github.io/
