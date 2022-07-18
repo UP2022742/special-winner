@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+    steam_compare_api:
+        build:
+            context: solid-octo-broccoli/backend
+            dockerfile: Dockerfile
+        command: ["python","-m","uvicorn","main:app","--host","0.0.0.0","--port","3000"]
+        environment:
+            - FRONTEND_PORT=3001
+            - API_PORT=3000
+        expose:
+          - 3000
+
+    steam_compare_web:
+        build:
+            context: solid-octo-broccoli/frontend
+            dockerfile: Dockerfile
+        command: ["python","-m","uvicorn","main:app","--host","0.0.0.0",'--port','3001']
+        environment:
+            - API_PORT=3000
+        expose:
+          - 3001
+            
+    static_page_web:
+      image: static_page_web
+      build: mcrrobinson.github.io/WebServer
+      container_name: static_page_web
+      restart: always
+      expose:
+         - 443
+
+    ryan_air_api:
+      image: ryan_air_api
+      build: aspiring-diamond
+      command: ["python","-m","uvicorn","main:app","--host","0.0.0.0",'--port','8000']
+      container_name: ryan_air_api
+      restart: always
+      expose:
+         - 8000
+         
+    # haproxy:
+    #   image: haproxy:2.5.7
+    #   volumes:
+    #     - ./haproxy:/haproxy-override
+    #     - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    #   links:
+    #     - steam_compare_web
+    #     - static_page_web
+    #     - ryan_air_api
+    #   ports:
+    #     - "80:80"
+    #     - "70:70"
