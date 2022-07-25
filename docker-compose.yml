@@ -30,7 +30,7 @@ services:
         container_name: static_page_web
         restart: always
         volumes:
-          - ./certs:/certs
+          - /etc/letsencrypt/live/mcrrobinson.com:/certs
         ports:
             - "443:443"
 
