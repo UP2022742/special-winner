@@ -33,8 +33,8 @@ services:
           - "./etc/letsencrypt/live/mcrrobinson.com/fullchain.pem:/fullchain.pem"
           - "./etc/letsencrypt/live/mcrrobinson.com/privkey.pem:/privkey.pem"
         ports:
-            - "443:443"
-
+          - "4000:4000"
+          
     ryan_air_api:
         image: ryan_air_api
         build: aspiring-diamond
@@ -43,16 +43,21 @@ services:
         restart: always
         ports:
             - "8000:8000"
+
+    static_server_api:
+        image: static_server_api
+        build: static-server
+        command: ["python","-m","uvicorn","main:app","--host","0.0.0.0",'--port','5000']
+        container_name: static_server_api
+        restart: always
+        ports:
+            - "5000:5000"
         
     haproxy:
       image: haproxy:2.5.7
       volumes:
         - ./haproxy:/haproxy-override
         - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-      links:
-        - steam_compare_web
-        - static_page_web
-        - ryan_air_api
+        - ./etc/letsencrypt/live/mcrrobinson.com/mcrrobinson.com.pem:/usr/local/etc/certs/mcrrobinson.com.pem:ro
       ports:
-        - "80:80"
-        - "70:70"
+        - "443:443"
