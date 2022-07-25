@@ -30,7 +30,8 @@ services:
         container_name: static_page_web
         restart: always
         volumes:
-          - /etc/letsencrypt/live/mcrrobinson.com:/certs
+          - "./etc/letsencrypt/live/mcrrobinson.com/fullchain.pem:/fullchain.pem"
+          - "./etc/letsencrypt/live/mcrrobinson.com/privkey.pem:/privkey.pem"
         ports:
             - "443:443"
 
