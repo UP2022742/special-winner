@@ -160,7 +160,7 @@ class CompareTables {
         this.games_in_common_table.clear();
 
         // Add the new games in common to the table.
-        fetch('http://' + api_host + ':' + api_port + '/ratings', {
+        fetch('/ratings', {
             method: 'POST',
             body: JSON.stringify({
                 "ids": listOfGameNamesToIds(data_table_content.common_games, this.games),
