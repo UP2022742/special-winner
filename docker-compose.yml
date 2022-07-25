@@ -29,6 +29,8 @@ services:
         build: mcrrobinson.github.io/WebServer
         container_name: static_page_web
         restart: always
+        volumes:
+          - ./certs:/certs
         ports:
             - "443:443"
 
@@ -41,15 +43,15 @@ services:
         ports:
             - "8000:8000"
         
-    # haproxy:
-    #   image: haproxy:2.5.7
-    #   volumes:
-    #     - ./haproxy:/haproxy-override
-    #     - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-    #   links:
-    #     - steam_compare_web
-    #     - static_page_web
-    #     - ryan_air_api
-    #   ports:
-    #     - "80:80"
-    #     - "70:70"
+    haproxy:
+      image: haproxy:2.5.7
+      volumes:
+        - ./haproxy:/haproxy-override
+        - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      links:
+        - steam_compare_web
+        - static_page_web
+        - ryan_air_api
+      ports:
+        - "80:80"
+        - "70:70"
