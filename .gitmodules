@@ -8,3 +8,6 @@
 [submodule "aspiring-diamond"]
 	path = aspiring-diamond
 	url = git@github.com:UP2022742/aspiring-diamond.git
+[submodule "literate-octo-guacamole"]
+	path = literate-octo-guacamole
+	url = git@github.com:UP2022742/literate-octo-guacamole.git

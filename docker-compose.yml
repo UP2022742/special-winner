@@ -54,3 +54,39 @@ services:
         - ./etc/letsencrypt/live/mcrrobinson.com/mcrrobinson.com.pem:/usr/local/etc/certs/mcrrobinson.com.pem:ro
       ports:
         - "443:443"
+
+    db:
+      image: postgres:14.2-alpine
+      restart: always
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - PRODUCER_USER=producer
+        - PRODUCER_PASS=producer
+        - CONSUMER_USER=consumer
+        - CONSUMER_PASS=consumer
+        - DB_NAME=models
+      ports:
+        - 5432:5432
+      volumes:
+        - ./literate-octo-guacamole/data:/var/lib/postgresql/data
+        - ./literate-octo-guacamole/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+    livelong_web:
+      build:
+        context: ./literate-octo-guacamole
+        dockerfile: Dockerfile.frontend
+      image: frontend
+      ports:
+        - 8081:8081
+
+    livelong_api:
+      build:
+        context: ./literate-octo-guacamole
+        dockerfile: Dockerfile.aggregator
+      command: ["uvicorn", "aggregator.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8080"]
+      image: aggregator
+      depends_on:
+        - db
+      volumes:
+        - ./literate-octo-guacamole/logs:/logs
