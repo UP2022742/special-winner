@@ -51,7 +51,15 @@ services:
       volumes:
         - ./haproxy:/haproxy-override
         - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
-        - ./etc/letsencrypt/live/mcrrobinson.com/mcrrobinson.com.pem:/usr/local/etc/certs/mcrrobinson.com.pem:ro
+        - /etc/letsencrypt/live/mcrrobinson.com/mcrrobinson.com.pem:/usr/local/etc/certs/mcrrobinson.com.pem:ro
+      depends_on:
+        - static_server_api
+        - ryan_air_api
+        - static_page_web
+        - steam_compare_api
+        - steam_compare_web
+        - livelong_web
+        - livelong_api
       ports:
         - "443:443"
 
@@ -76,6 +84,7 @@ services:
       build:
         context: ./literate-octo-guacamole
         dockerfile: Dockerfile.frontend
+      container_name: livelong_web
       image: frontend
       ports:
         - 8081:8081
@@ -85,6 +94,7 @@ services:
         context: ./literate-octo-guacamole
         dockerfile: Dockerfile.aggregator
       command: ["uvicorn", "aggregator.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8080"]
+      container_name: livelong_api
       image: aggregator
       depends_on:
         - db
