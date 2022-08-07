@@ -74,6 +74,7 @@ services:
         - CONSUMER_USER=consumer
         - CONSUMER_PASS=consumer
         - DB_NAME=models
+      container_name: db
       ports:
         - 5432:5432
       volumes:
